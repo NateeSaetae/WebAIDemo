@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import ResultChart from '../Chart/ResultChart'
 import WeightsChart from '../Chart/WeightsChart'
 import { trainPerceptron } from './trainPerceptron'
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 
 export default function DisplayPerceptron() {
     const [dataset, setDataset] = useState([]);
@@ -67,11 +70,13 @@ export default function DisplayPerceptron() {
           <h1>🧠 Perceptron Interactive Trainer</h1>
     
           <h3>➕ เพิ่มข้อมูล (x1, x2, y)</h3>
-          <input type="number" step="any" placeholder="x1" value={x1} onChange={e => setX1(e.target.value)} />
-          <input type="number" step="any" placeholder="x2" value={x2} onChange={e => setX2(e.target.value)} />
-          <input type="number" min="0" max="1" placeholder="y (0 or 1)" value={y} onChange={e => setY(e.target.value)} />
-          <button onClick={handleAddData} disabled={blockInput === true}>เพิ่ม</button>
-          <button onClick={handleTrainTest} >🚀 ตัวอย่างข้อมูลจำลอง</button>
+          <Stack spacing={2} direction="row">
+            <TextField id="outlined-basic" label="x1" variant="outlined" type="number" step="any" value={x1} onChange={e => setX1(e.target.value)}/>
+            <TextField id="outlined-basic" label="x2" variant="outlined" type="number" step="any" value={x2} onChange={e => setX2(e.target.value)}/>
+            <TextField id="outlined-basic" label="y (0 or 1)" variant="outlined" type="number" inputProps={{ min: 0, max: 1 }} value={y} onChange={e => setY(e.target.value)}/>
+            <Button onClick={handleAddData} disabled={blockInput === true} variant='contained'>Add Data</Button>
+            <Button onClick={handleTrainTest} variant='contained'>🚀 ตัวอย่างข้อมูลจำลอง</Button>
+          </Stack>
     
           <h4>📋 Dataset</h4>
           <ul>
@@ -79,9 +84,11 @@ export default function DisplayPerceptron() {
               <li key={i}>x1: {d.x1}, x2: {d.x2}, y: {d.y}</li>
             ))}
           </ul>
-    
-          <button onClick={handleTrain} disabled={dataset.length === 0}>🚀 ฝึกโมเดล</button>
-          <button onClick={cl}>ล้าง</button>
+
+          <Stack spacing={2} direction="row">
+            <Button onClick={handleTrain} disabled={dataset.length === 0} variant='contained'>🚀 ฝึกโมเดล</Button>
+            <Button onClick={cl} variant='contained'>ล้าง</Button>
+          </Stack>
     
           {trained && (
             <>

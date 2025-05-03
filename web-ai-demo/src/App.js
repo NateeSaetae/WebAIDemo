@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useState } from 'react';
 import TableTabExample from './TableTab.js';
 
