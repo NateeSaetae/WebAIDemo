@@ -4,8 +4,8 @@ export function trainPerceptron(dataset, learningRate = 0.1, epochs = 10) {
 
   const activation = (z) => (z >= 0 ? 1 : 0);
 
-  const weightsPerEpoch = []; // เก็บค่าถ่วงน้ำหนักแต่ละรอบ
-  const errorsPerEpoch = [];  // เก็บค่า error รวมแต่ละ epoch
+  const weightsPerEpoch = [];
+  const errorsPerEpoch = [];
 
   for (let epoch = 0; epoch < epochs; epoch++) {
     let totalError = 0;
