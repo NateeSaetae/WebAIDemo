@@ -63,9 +63,21 @@ export default function TrainKnn() {
   }
 
   const handleDataTest = () => {
-    
+
     setDataset(datasetKnn);
     setBlockKnn(true)
+  }
+
+  const cl = () => {
+    setBlockKnn(false);
+    setDataset([])
+    setX1('');
+    setX2('');
+    setY('');
+    setTestX1('');
+    setTestX2('');
+    setK('');
+    setPrediction(null);
   }
 
   const handlePredict = () => {
@@ -117,6 +129,7 @@ export default function TrainKnn() {
         }}
        />
       <button onClick={handlePredict} disabled={blockKnn === false || testX1 === '' || testX2 === ''}>ทำนาย</button>
+      <button onClick={cl}>ล้าง</button>
 
       {prediction !== null && (
         <>

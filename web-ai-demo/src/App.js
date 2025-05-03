@@ -1,13 +1,11 @@
 // App.jsx
 import React, { useState } from 'react';
-import DisplayPerceptron from './AI_Models/displayPerceptron.js';
-import TrainKnn from './AI_Models/trainKnn.js';
+import TableTabExample from './TableTab.js';
 
 export default function App() {
   return(
     <>
-      <DisplayPerceptron/>
-      <TrainKnn/>
+      <TableTabExample/>
     </>
   )
 }
