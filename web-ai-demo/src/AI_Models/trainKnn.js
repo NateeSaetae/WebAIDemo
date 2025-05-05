@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import KnnResultChart from '../Chart/KnnResultChart'
 import { Button, Stack, TextField } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
@@ -74,7 +74,6 @@ export default function TrainKnn() {
   }
 
   const handleDataTest = () => {
-
     setDataset(datasetKnn);
     setBlockKnn(true)
   }
@@ -116,9 +115,9 @@ export default function TrainKnn() {
 
         <h3 style={{ marginTop: '1.5rem', fontSize: '1.2rem' }}>📌 ขั้นตอนการใช้งาน:</h3>
         <ol style={{ paddingLeft: '1.5rem', fontSize: '1rem' }}>
-          <li><strong>เพิ่มข้อมูลฝึก:</strong> ป้อนค่า <code>x1</code>, <code>x2</code> และ <code>y</code> (0 หรือ 1) แล้วกด <em>“Add Data”</em></li>
+          <li><strong>เพิ่มข้อมูลฝึก:</strong> ป้อนค่า <code>x1</code>, <code>x2</code> และ <code>y</code> (0 หรือ 1) แล้วกด <em>“Add Data Point”</em></li>
           <li><strong>ทดสอบการทำนาย:</strong> ป้อนข้อมูล <code>x1</code> และ <code>x2</code> ใหม่ พร้อมระบุค่า <code>k</code> (ต้องเป็นเลขคี่)</li>
-          <li><strong>กดปุ่ม “ทำนาย”:</strong> โปรแกรมจะคำนวณระยะทางจากทุกจุด และเลือกเพื่อนบ้านใกล้ที่สุด <code>k</code> จุด</li>
+          <li><strong>กดปุ่ม “Predict”:</strong> โปรแกรมจะคำนวณระยะทางจากทุกจุด และเลือกเพื่อนบ้านใกล้ที่สุด <code>k</code> จุด</li>
           <li><strong>แสดงผล:</strong> แสดงค่าที่คาดว่าจะได้จากการโหวตเสียงข้างมากของเพื่อนบ้าน</li>
         </ol>
 
@@ -142,8 +141,8 @@ export default function TrainKnn() {
         <TextField id="outlined-basic" label="x1" variant="outlined" type="number" step="any" value={x1} onChange={e => setX1(e.target.value)}/>
         <TextField id="outlined-basic" label="x2" variant="outlined" type="number" step="any" value={x2} onChange={e => setX2(e.target.value)}/>
         <TextField id="outlined-basic" label="y (0 or 1)" variant="outlined" type="number" inputProps={{ min: 0, max: 1 }} value={y} onChange={e => setY(e.target.value)} sx={{ minWidth: '150px'}}/>
-        <Button onClick={handleAdd} variant='contained' sx={font}>Add Data</Button>
-        <Button onClick={handleDataTest} variant='contained' sx={font}>🚀 ตัวอย่างข้อมูลจำลอง</Button>
+        <Button onClick={handleAdd} variant='contained' sx={font}>Add Data Point</Button>
+        <Button onClick={handleDataTest} variant='contained' sx={font}>Load Sample Data</Button>
       </Stack>
 
       <h4 style={{ fontSize: '2rem'}}>📋 Dataset</h4>
@@ -187,8 +186,8 @@ export default function TrainKnn() {
               setK(num);
               }
         }}/>
-        <Button onClick={handlePredict} disabled={blockKnn === false || testX1 === '' || testX2 === ''} variant='contained' sx={font}>ทำนาย</Button>
-        <Button onClick={cl} variant='contained' sx={font}>ล้าง</Button>
+        <Button onClick={handlePredict} disabled={blockKnn === false || testX1 === '' || testX2 === ''} variant='contained' sx={font}>Predict</Button>
+        <Button onClick={cl} variant='contained' sx={font}>Reset</Button>
       </Stack>
 
       {prediction !== null && (
