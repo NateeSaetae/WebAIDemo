@@ -96,14 +96,15 @@ export default function DisplayPerceptron() {
 
   return (
     <Container maxWidth="xl" sx={{ py: 4, fontFamily: 'Prompt', fontWeight: 400 }}>
-      <Box className="bg-yellow-50 border rounded p-4 mb-6" sx={{ fontFamily: 'Prompt' }}>
-        <h2 className="text-xl font-bold text-blue-800" style={{ fontSize: '3rem', marginTop: '0.5rem' }}>ทฤษฎีของ Perceptron</h2>
-        <p style={{ fontSize: '1.5rem', marginTop: '0.5rem' }}>
+      <Box sx={{ fontFamily: 'Prompt', mt: 4, mb: 6 }}>
+        <h2 style={{ fontWeight: 'bold', fontSize: '3rem', color: '#000' }}>ทฤษฎีของ Perceptron</h2>
+        <p style={{ fontSize: '1.5rem', marginTop: '0.5rem'}}>
           Perceptron เป็นโมเดลพื้นฐานของ Machine Learning สำหรับการจำแนกข้อมูลแบบสองกลุ่ม (Binary Classification)
           โดยใช้สมการเชิงเส้นเพื่อแบ่งข้อมูลออกเป็นกลุ่ม 0 หรือ 1
         </p>
         <p style={{ fontSize: '1.5rem', marginTop: '0.5rem' }}>
-          <strong>สมการ:</strong>  
+          <strong>สมการ Percptron</strong>
+          <br />
           <code>y = f(w₁x₁ + w₂x₂ + b)</code>
           <br />
           <TableContainer component={Paper} sx={{ maxWidth: 700, my: 2 ,fontFamily: 'Prompt'}}>
@@ -148,15 +149,15 @@ export default function DisplayPerceptron() {
         ></Divider>
       </Box>
 
-      <h1 style={{ fontSize: '3rem', marginTop: '0.5rem' }}>🧠 Perceptron Interactive Trainer</h1>
+      <h1 style={{ fontSize: '3rem', marginTop: '0.5rem' }}>Perceptron Interactive Trainer</h1>
       <Button variant='contained' onClick={exModel} sx={{ fontSize: '1.2rem' , fontFamily: 'Prompt'}}>Show Explanation</Button>
-      { openEx === true ? <div style={{ padding: '.1rem', fontFamily: 'Prompt' }}>
+      { openEx === true ? <div style={{ padding: '2rem', fontFamily: 'Prompt', background:'#F6F3F3' }}>
         <h2 style={{ fontWeight: 'bold', fontSize: '2rem', color: '#1976d2' }}>
-          🧠 คำอธิบายการใช้งาน Perceptron Interactive Trainer
+          คำอธิบายการใช้งาน Perceptron Interactive Trainer
         </h2>
 
         <p style={{ marginTop: '1rem', fontSize: '1.4rem' }}>
-          โปรแกรมนี้จำลองการทำงานของ <strong>โมเดล Perceptron</strong> สำหรับการจำแนกข้อมูลออกเป็น 2 กลุ่ม (0 หรือ 1)
+          โปรแกรมนี้จำลองการทำงานของ <strong>โมเดล Perceptron</strong> สำหรับการจำแนกข้อมูลออกเป็น 2 กลุ่ม (0หรือ 1)
           โดยให้ผู้ใช้งานสามารถป้อนข้อมูลเอง ฝึกโมเดล และดูผลลัพธ์ในรูปแบบกราฟได้
         </p>
 
@@ -180,7 +181,7 @@ export default function DisplayPerceptron() {
         </p>
       </div> : ''}
 
-      <h3 style={{ fontSize: '2rem' }}>➕ เพิ่มข้อมูล (x1, x2, y)</h3>
+      <h3 style={{ fontSize: '2rem' }}>เพิ่มข้อมูล (x1, x2, y)</h3>
       <Stack spacing={2} direction="row">
         <TextField id="outlined-basic" label="x1" variant="outlined" type="number" step="any" value={x1} onChange={e => setX1(e.target.value)} />
         <TextField id="outlined-basic" label="x2" variant="outlined" type="number" step="any" value={x2} onChange={e => setX2(e.target.value)} />
@@ -189,7 +190,7 @@ export default function DisplayPerceptron() {
         <Button onClick={handleTrainTest} variant='contained' sx={font}>Load Sample Data</Button>
       </Stack>
 
-      <h4 style={{ fontSize: '2rem' }}>📋 Dataset</h4>
+      <h4 style={{ fontSize: '2rem' }}>Dataset</h4>
 
       <TableContainer component={Paper} sx={{ width: '100%', maxWidth: '600px', mb: 4 , fontSize:'2rem'}}>
         <Table>
@@ -215,7 +216,7 @@ export default function DisplayPerceptron() {
       </TableContainer>
 
       <Stack spacing={2} direction="row">
-        <Button onClick={handleTrain} disabled={dataset.length === 0} variant='contained' sx={font}>Train Model</Button>
+        <Button onClick={handleTrain} disabled={dataset.length === 0} variant='contained' sx={font}>🚀 Train Model</Button>
         <Button onClick={cl} variant='contained' sx={font} color="error">Reset</Button>
       </Stack>
 
