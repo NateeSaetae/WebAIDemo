@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import KnnResultChart from '../Chart/KnnResultChart'
 import { Button, Stack, TextField, Container, Box, Divider} from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
@@ -89,7 +89,6 @@ export default function TrainKnn() {
   }
 
   const handleDataTest = () => {
-
     setDataset(datasetKnn);
     setBlockKnn(true)
   }
