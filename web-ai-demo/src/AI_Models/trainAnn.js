@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import AnnErrorChart from '../Chart/AnnErrorChart'
+import { Button, Stack, TextField } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const sigmoid = x => 1 / (1 + Math.exp(-x));
 const sigmoidDerivative = x => x * (1 - x);
@@ -52,6 +55,7 @@ export default function AnnTrainerApp() {
   const [y, setY] = useState('');
   const [errorLog, setErrorLog] = useState([]);
   const [trained, setTrained] = useState(false);
+  const font  = { fontFamily: 'Prompt',fontWeight: 400};
   const dataTest = [
         { x1: 0, x2: 1, y: 1 },
         { x1: 1, x2: 0, y: 1 },
@@ -71,6 +75,12 @@ export default function AnnTrainerApp() {
     } else {
       alert('กรอกให้ครบ และ y ต้องเป็น 0 หรือ 1');
     }
+  };
+  const headCellStyle = {
+        backgroundColor: '#e3f2fd',
+        color: '#0d47a1',
+        fontWeight: 'bold',
+        fontFamily: 'Prompt'
   };
 
   const handleTrain = () => {
@@ -93,35 +103,50 @@ export default function AnnTrainerApp() {
   }
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+    <div style={{ padding: '2rem', fontFamily: 'Prompt', fontWeight: 400 }}>
       <h1>🧠 Simple ANN Trainer</h1>
 
-      <h3>➕ เพิ่มข้อมูล (x1, x2, y)</h3>
-      <input type="number" placeholder="x1" value={x1} onChange={e => setX1(e.target.value)} />
-      <input type="number" placeholder="x2" value={x2} onChange={e => setX2(e.target.value)} />
-      <input type="number" placeholder="y (0 or 1)" value={y} onChange={e => setY(e.target.value)} />
-      <button onClick={handleAdd}>เพิ่ม</button>
-      <button onClick={handleTest}>Data test</button>
+      <h3 style={{ fontSize: '2rem'}}>➕ เพิ่มข้อมูล (x1, x2, y)</h3>
+      <Stack spacing={2} direction="row">
+        <TextField id="outlined-basic" label="x1" variant="outlined" type="number" step="any" value={x1} onChange={e => setX1(e.target.value)}/>
+        <TextField id="outlined-basic" label="x2" variant="outlined" type="number" step="any" value={x2} onChange={e => setX2(e.target.value)}/>
+        <TextField id="outlined-basic" label="y (0 or 1)" variant="outlined" type="number" inputProps={{ min: 0, max: 1 }} value={y} onChange={e => setY(e.target.value)} sx={{ minWidth: '150px'}}/>
+        <Button onClick={handleAdd} variant='contained' sx={font}>Add Data</Button>
+        <Button onClick={handleTest} variant='contained' sx={font}>🚀 ตัวอย่างข้อมูลจำลอง</Button>
+      </Stack>
 
-      <h4>📋 Dataset</h4>
-      <ul>
-        {dataset.map((d, i) => (
-          <li key={i}>x1: {d.x1}, x2: {d.x2}, y: {d.y}</li>
-        ))}
-      </ul>
-
-      <button onClick={handleTrain} disabled={dataset.length === 0}>🚀 ฝึกโมเดล</button>
-      <button onClick={cl}>ล้าง</button>
+      <h4 style={{ fontSize: '2rem'}}>📋 Dataset</h4>
+      <TableContainer component={Paper} style={{ width: '100%', maxWidth: '400px', marginBottom: '50px'}}>
+                  <Table>
+                    <TableHead>
+                      {dataset.length !== 0 ? 
+                      <TableRow>
+                        <TableCell sx={headCellStyle} >x1</TableCell>
+                        <TableCell sx={headCellStyle} >x2</TableCell>
+                        <TableCell sx={headCellStyle} >y</TableCell>
+                      </TableRow> 
+                      : ''}
+                    </TableHead>
+                    <TableBody>
+                      {dataset.map((d, i) => (
+                        <TableRow key={i}>
+                          <TableCell>{d.x1}</TableCell>
+                          <TableCell>{d.x2}</TableCell>
+                          <TableCell>{d.y}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+      </TableContainer>
+      <Stack spacing={2} direction="row">
+        <Button onClick={handleTrain} disabled={dataset.length === 0} variant='contained' sx={font}>🚀 ฝึกโมเดล</Button>
+        <Button onClick={cl} variant='contained' sx={font}>ล้าง</Button>
+      </Stack>
 
       {trained && (
         <>
           <h3>📉 Error per Epoch</h3>
           <AnnErrorChart errors={errorLog} />
-          {/*<ul>
-            {errorLog.map((e, i) => (
-              <li key={i}>Epoch {i + 1}: {e}</li>
-            ))}
-          </ul>*/}
         </>
       )}
     </div>

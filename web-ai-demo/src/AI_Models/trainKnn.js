@@ -1,5 +1,8 @@
 import React, { use, useState } from 'react';
 import KnnResultChart from '../Chart/KnnResultChart'
+import { Button, Stack, TextField } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function euclideanDistance(a, b) {
   return Math.sqrt(
@@ -33,6 +36,7 @@ export default function TrainKnn() {
   const [k, setK] = useState('');
   const [blockKnn, setBlockKnn] = useState(false);
   const [prediction, setPrediction] = useState(null);
+  const font  = { fontFamily: 'Prompt',fontWeight: 400};
   const datasetKnn = [
         { x1: 1, x2: 2, y: 0 },
         { x1: 2, x2: 1, y: 0 },
@@ -56,6 +60,13 @@ export default function TrainKnn() {
     } else {
       alert('กรุณากรอกข้อมูลให้ครบและ y เป็น 0 หรือ 1');
     }
+  };
+
+  const headCellStyle = {
+        backgroundColor: '#e3f2fd',
+        color: '#0d47a1',
+        fontWeight: 'bold',
+        fontFamily: 'Prompt'
   };
 
   function getRandomFloat(min, max) {
@@ -91,49 +102,67 @@ export default function TrainKnn() {
   };
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+    <div style={{ padding: '2rem', fontFamily: 'Prompt', fontWeight: 400 }}>
       <h1>🔍 K-NN Classifier</h1>
 
-      <h3>➕ เพิ่มข้อมูลสอน (x1, x2, y)</h3>
-      <input type="number" placeholder="x1" value={x1} onChange={e => setX1(e.target.value)} />
-      <input type="number" placeholder="x2" value={x2} onChange={e => setX2(e.target.value)} />
-      <input type="number" placeholder="y (0 or 1)" value={y} onChange={e => setY(e.target.value)} />
-      <button onClick={handleAdd}>เพิ่ม</button>
-      <button onClick={handleDataTest}>data test</button>
+      <h3 style={{ fontSize: '2rem'}} >➕ เพิ่มข้อมูลสอน (x1, x2, y)</h3>
 
-      <h4>📋 Dataset</h4>
-      <ul>
-        {dataset.map((d, i) => (
-          <li key={i}>x1: {d.x1}, x2: {d.x2}, y: {d.y}</li>
-        ))}
-      </ul>
+      <Stack spacing={2} direction="row">
+        <TextField id="outlined-basic" label="x1" variant="outlined" type="number" step="any" value={x1} onChange={e => setX1(e.target.value)}/>
+        <TextField id="outlined-basic" label="x2" variant="outlined" type="number" step="any" value={x2} onChange={e => setX2(e.target.value)}/>
+        <TextField id="outlined-basic" label="y (0 or 1)" variant="outlined" type="number" inputProps={{ min: 0, max: 1 }} value={y} onChange={e => setY(e.target.value)} sx={{ minWidth: '150px'}}/>
+        <Button onClick={handleAdd} variant='contained' sx={font}>Add Data</Button>
+        <Button onClick={handleDataTest} variant='contained' sx={font}>🚀 ตัวอย่างข้อมูลจำลอง</Button>
+      </Stack>
 
-      <h3>🧪 ทำนายจากข้อมูลใหม่</h3>
-      <input type="number" placeholder="x1 ทดสอบ" value={testX1} onChange={e => setTestX1(e.target.value)} />
-      <input type="number" placeholder="x2 ทดสอบ" value={testX2} onChange={e => setTestX2(e.target.value)} />
-      <input
-        type="number"
-        placeholder="k (เลขคี่เท่านั้น)"
-        value={k}
-        onChange={e => {
-            const val = e.target.value;
-            if (val === '') {
-            setK('');
-            return;
-            }
+      <h4 style={{ fontSize: '2rem'}}>📋 Dataset</h4>
+      <TableContainer component={Paper} style={{ width: '100%', maxWidth: '400px', marginBottom: '50px'}}>
+            <Table>
+              <TableHead>
+                {dataset.length !== 0 ? 
+                <TableRow>
+                  <TableCell sx={headCellStyle} >x1</TableCell>
+                  <TableCell sx={headCellStyle} >x2</TableCell>
+                  <TableCell sx={headCellStyle} >y</TableCell>
+                </TableRow> 
+                : ''}
+              </TableHead>
+              <TableBody>
+                {dataset.map((d, i) => (
+                  <TableRow key={i}>
+                    <TableCell>{d.x1}</TableCell>
+                    <TableCell>{d.x2}</TableCell>
+                    <TableCell>{d.y}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+      </TableContainer>
 
-            const num = parseInt(val);
-            if (!isNaN(num) && num % 2 === 1) {
-            setK(num);
-            }
-        }}
-       />
-      <button onClick={handlePredict} disabled={blockKnn === false || testX1 === '' || testX2 === ''}>ทำนาย</button>
-      <button onClick={cl}>ล้าง</button>
+      <h3 style={{ fontSize: '2rem'}}>🧪 ทำนายจากข้อมูลใหม่</h3>
+
+      <Stack spacing={2} direction="row">
+        <TextField id="outlined-basic" label="x1 ทดสอบ" variant="outlined" type="number" step="any" value={testX1} onChange={e => setTestX1(e.target.value)}/>
+        <TextField id="outlined-basic" label="x2 ทดสอบ" variant="outlined" type="number" step="any" value={testX2} onChange={e => setTestX2(e.target.value)}/>
+        <TextField id="outlined-basic" label="k (เลขคี่เท่านั้น)" variant="outlined" type="number" step="any" value={k} onChange={e => {
+              const val = e.target.value;
+              if (val === '') {
+              setK('');
+              return;
+              }
+
+              const num = parseInt(val);
+              if (!isNaN(num) && num % 2 === 1) {
+              setK(num);
+              }
+        }}/>
+        <Button onClick={handlePredict} disabled={blockKnn === false || testX1 === '' || testX2 === ''} variant='contained' sx={font}>ทำนาย</Button>
+        <Button onClick={cl} variant='contained' sx={font}>ล้าง</Button>
+      </Stack>
 
       {prediction !== null && (
         <>
-            <h4>📌 คำทำนาย: y = {prediction}</h4>
+            <h4 style={{ fontSize: '2rem'}}>📌 คำทำนาย: y = {prediction}</h4>
             <KnnResultChart
                 dataset={dataset}
                 testPoint={{ x1: parseFloat(testX1), x2: parseFloat(testX2) }}

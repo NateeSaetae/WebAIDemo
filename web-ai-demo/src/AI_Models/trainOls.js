@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import * as math from 'mathjs';
+import { Button, Stack, TextField } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function OlsRegressionApp() {
   const [dataset, setDataset] = useState([]);
@@ -8,6 +11,7 @@ export default function OlsRegressionApp() {
   const [y, setY] = useState('');
   const [weights, setWeights] = useState(null);
   const [mse, setMse] = useState(null);
+  const font  = { fontFamily: 'Prompt',fontWeight: 400};
 
   const handleAdd = () => {
     const dx1 = parseFloat(x1);
@@ -19,6 +23,13 @@ export default function OlsRegressionApp() {
     } else {
       alert('กรอกข้อมูลให้ถูกต้องทั้งหมด');
     }
+  };
+
+  const headCellStyle = {
+        backgroundColor: '#e3f2fd',
+        color: '#0d47a1',
+        fontWeight: 'bold',
+        fontFamily: 'Prompt'
   };
 
   const handleTrainOLS = () => {
@@ -46,23 +57,43 @@ export default function OlsRegressionApp() {
   };
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+    <div style={{ padding: '2rem', fontFamily: 'Prompt', fontWeight: 400 }}>
       <h1>📊 OLS Linear Regression Trainer</h1>
 
-      <h3>➕ เพิ่มข้อมูล (x1, x2, y)</h3>
-      <input type="number" placeholder="x1" value={x1} onChange={e => setX1(e.target.value)} />
-      <input type="number" placeholder="x2" value={x2} onChange={e => setX2(e.target.value)} />
-      <input type="number" placeholder="y" value={y} onChange={e => setY(e.target.value)} />
-      <button onClick={handleAdd}>เพิ่ม</button>
+      <h3 style={{ fontSize: '2rem'}}>➕ เพิ่มข้อมูล (x1, x2, y)</h3>
+      <Stack spacing={2} direction="row">
+        <TextField id="outlined-basic" label="x1" variant="outlined" type="number" step="any" value={x1} onChange={e => setX1(e.target.value)}/>
+        <TextField id="outlined-basic" label="x2" variant="outlined" type="number" step="any" value={x2} onChange={e => setX2(e.target.value)}/>
+        <TextField id="outlined-basic" label="y" variant="outlined" type="number" value={y} onChange={e => setY(e.target.value)} sx={{ maxWidth: '150px'}}/>
+        <Button onClick={handleAdd} variant='contained' sx={font}>Add Data</Button>
+        {/*<Button onClick={handleDataTest} variant='contained' sx={font}>🚀 ตัวอย่างข้อมูลจำลอง</Button>*/}
+      </Stack>
 
-      <h4>📋 Dataset</h4>
-      <ul>
-        {dataset.map((d, i) => (
-          <li key={i}>x1: {d.x1}, x2: {d.x2}, y: {d.y}</li>
-        ))}
-      </ul>
+      <h4 style={{ fontSize: '2rem'}}>📋 Dataset</h4>
+      <TableContainer component={Paper} style={{ width: '100%', maxWidth: '400px', marginBottom: '50px'}}>
+                        <Table>
+                          <TableHead>
+                            {dataset.length !== 0 ? 
+                            <TableRow>
+                              <TableCell sx={headCellStyle} >x1</TableCell>
+                              <TableCell sx={headCellStyle} >x2</TableCell>
+                              <TableCell sx={headCellStyle} >y</TableCell>
+                            </TableRow> 
+                            : ''}
+                          </TableHead>
+                          <TableBody>
+                            {dataset.map((d, i) => (
+                              <TableRow key={i}>
+                                <TableCell>{d.x1}</TableCell>
+                                <TableCell>{d.x2}</TableCell>
+                                <TableCell>{d.y}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+      </TableContainer>
 
-      <button onClick={handleTrainOLS}>🚀 ฝึกโมเดล OLS</button>
+      <button onClick={handleTrainOLS} disabled={dataset.length <= 1}>🚀 ฝึกโมเดล OLS</button>
 
       {weights && (
         <>

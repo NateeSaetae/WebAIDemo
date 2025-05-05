@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import ResultChart from '../Chart/ResultChart'
 import WeightsChart from '../Chart/WeightsChart'
 import { trainPerceptron } from './trainPerceptron'
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
+import { Button, Stack, TextField, Box} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function DisplayPerceptron() {
     const [dataset, setDataset] = useState([]);
@@ -15,6 +15,7 @@ export default function DisplayPerceptron() {
       const [weights, setWeights] = useState([]);
       const [trained, setTrained] = useState(false);
       const [blockInput, setBlockInput] = useState(false);
+      const font  = { fontFamily: 'Prompt',fontWeight: 400};
       
       const datasetTest = [
         {x1: 1, x2: 1.5, y: 0},
@@ -23,6 +24,19 @@ export default function DisplayPerceptron() {
         {x1: 3, x2: 4.5, y: 1},
         {x1: 1, x2: 0.5, y: 0}
       ]
+
+      const headCellStyle = {
+        backgroundColor: '#e3f2fd',
+        color: '#0d47a1',
+        fontWeight: 'bold',
+        fontFamily: 'Prompt'
+      };
+
+      const theme = createTheme({
+        typography: {
+          fontFamily: 'Prompt, sans-serif',
+        },
+      });
     
       const handleAddData = () => {
         const parsedX1 = parseFloat(x1);
@@ -66,38 +80,60 @@ export default function DisplayPerceptron() {
       }
     
       return (
-        <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+        <div style={{ padding: '2rem', fontFamily: 'Prompt', fontWeight: 400 }}>
           <h1>🧠 Perceptron Interactive Trainer</h1>
     
-          <h3>➕ เพิ่มข้อมูล (x1, x2, y)</h3>
+          <h3 style={{ fontSize: '2rem'}}>➕ เพิ่มข้อมูล (x1, x2, y)</h3>
           <Stack spacing={2} direction="row">
             <TextField id="outlined-basic" label="x1" variant="outlined" type="number" step="any" value={x1} onChange={e => setX1(e.target.value)}/>
             <TextField id="outlined-basic" label="x2" variant="outlined" type="number" step="any" value={x2} onChange={e => setX2(e.target.value)}/>
-            <TextField id="outlined-basic" label="y (0 or 1)" variant="outlined" type="number" inputProps={{ min: 0, max: 1 }} value={y} onChange={e => setY(e.target.value)}/>
-            <Button onClick={handleAddData} disabled={blockInput === true} variant='contained'>Add Data</Button>
-            <Button onClick={handleTrainTest} variant='contained'>🚀 ตัวอย่างข้อมูลจำลอง</Button>
+            <TextField id="outlined-basic" label="y (0 or 1)" variant="outlined" type="number" inputProps={{ min: 0, max: 1 }} value={y} onChange={e => setY(e.target.value)} sx={{ minWidth: '150px'}}/>
+            <Button onClick={handleAddData} disabled={blockInput === true} variant='contained' sx={font}>Add Data</Button>
+            <Button onClick={handleTrainTest} variant='contained' sx={font}>🚀 ตัวอย่างข้อมูลจำลอง</Button>
           </Stack>
     
-          <h4>📋 Dataset</h4>
-          <ul>
-            {dataset.map((d, i) => (
-              <li key={i}>x1: {d.x1}, x2: {d.x2}, y: {d.y}</li>
-            ))}
-          </ul>
+          <h4 style={{ fontSize: '2rem'}}>📋 Dataset</h4>
+          
+          <TableContainer component={Paper} style={{ width: '100%', maxWidth: '400px', marginBottom: '50px'}}>
+            <Table>
+              <TableHead>
+                {dataset.length !== 0 ? 
+                <TableRow>
+                  <TableCell sx={headCellStyle} >x1</TableCell>
+                  <TableCell sx={headCellStyle} >x2</TableCell>
+                  <TableCell sx={headCellStyle} >y</TableCell>
+                </TableRow> 
+                : ''}
+              </TableHead>
+              <TableBody>
+                {dataset.map((d, i) => (
+                  <TableRow key={i}>
+                    <TableCell>{d.x1}</TableCell>
+                    <TableCell>{d.x2}</TableCell>
+                    <TableCell>{d.y}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
           <Stack spacing={2} direction="row">
-            <Button onClick={handleTrain} disabled={dataset.length === 0} variant='contained'>🚀 ฝึกโมเดล</Button>
-            <Button onClick={cl} variant='contained'>ล้าง</Button>
+            <Button onClick={handleTrain} disabled={dataset.length === 0} variant='contained' sx={font}>🚀 ฝึกโมเดล</Button>
+            <Button onClick={cl} variant='contained' sx={font}>ล้าง</Button>
           </Stack>
     
           {trained && (
-            <>
-              <h3>📈 Error per Epoch</h3>
-              <ResultChart dataPoints={errors} />
-    
-              <h3>📊 Weights over Epochs</h3>
-              <WeightsChart weightsPerEpoch={weights} />
-            </>
+            <Stack spacing={2} direction="row" sx={{ width: '60%' }}>
+              <Box sx={{ flex: 1, minWidth: '600px' }}>
+                <h3 style={{ fontSize: '1.5rem'}}>📈 Error per Epoch</h3>
+                <ResultChart dataPoints={errors} />
+              </Box>
+              <Box sx={{ flex: 1, minWidth: '600px' }}>
+                <h3 style={{ fontSize: '1.5rem'}}>📊 Weights over Epochs</h3>
+                <WeightsChart weightsPerEpoch={weights} />
+              </Box>
+            </Stack>
+
           )}
         </div>
       );
