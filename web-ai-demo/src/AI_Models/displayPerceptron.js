@@ -1,4 +1,3 @@
-// displayPerceptron.js
 import React, { useState } from 'react';
 import ResultChart from '../Chart/ResultChart';
 import WeightsChart from '../Chart/WeightsChart';
@@ -46,7 +45,6 @@ export default function DisplayPerceptron() {
       fontFamily: 'Prompt, sans-serif',
     },
   });
-
 
   const handleAddData = () => {
     const parsedX1 = parseFloat(x1);
@@ -105,7 +103,7 @@ export default function DisplayPerceptron() {
           โดยใช้สมการเชิงเส้นเพื่อแบ่งข้อมูลออกเป็นกลุ่ม 0 หรือ 1
         </p>
         <p style={{ fontSize: '1.5rem', marginTop: '0.5rem' }}>
-          <strong>สมการ:</strong> &nbsp;
+          <strong>สมการ:</strong>  
           <code>y = f(w₁x₁ + w₂x₂ + b)</code>
           <br />
           <TableContainer component={Paper} sx={{ maxWidth: 700, my: 2 ,fontFamily: 'Prompt'}}>
@@ -151,7 +149,7 @@ export default function DisplayPerceptron() {
       </Box>
 
       <h1 style={{ fontSize: '3rem', marginTop: '0.5rem' }}>🧠 Perceptron Interactive Trainer</h1>
-      <Button variant='contained' onClick={exModel} sx={{ fontSize: '1.2rem' , fontFamily: 'Prompt'}}>คำอธิบาย</Button>
+      <Button variant='contained' onClick={exModel} sx={{ fontSize: '1.2rem' , fontFamily: 'Prompt'}}>Show Explanation</Button>
       { openEx === true ? <div style={{ padding: '.1rem', fontFamily: 'Prompt' }}>
         <h2 style={{ fontWeight: 'bold', fontSize: '2rem', color: '#1976d2' }}>
           🧠 คำอธิบายการใช้งาน Perceptron Interactive Trainer
@@ -164,11 +162,11 @@ export default function DisplayPerceptron() {
 
         <h3 style={{ marginTop: '1.5rem', fontSize: '1.5rem' }}>📌 ขั้นตอนการใช้งาน:</h3>
         <ol style={{ paddingLeft: '1.5rem', fontSize: '1.5rem' }}>
-          <li><strong style={{ color:'#1976d2'}}>ป้อนข้อมูล:</strong> กรอกค่าของ <code>x₁</code>, <code>x₂</code> และ <code>y</code> (ต้องเป็น 0 หรือ 1) แล้วกดปุ่ม <em>“Add Data”</em> หรือกดปุ่ม <em>“🚀 ตัวอย่างข้อมูลจำลอง”</em> เพื่อเพิ่มตัวอย่างข้อมูลที่จำลองมาให้</li>
-          <li><strong style={{ color:'#1976d2'}}>ฝึกโมเดล:</strong> กดปุ่ม <em>“🚀 ฝึกโมเดล”</em> เพื่อเริ่มเรียนรู้และปรับค่า weights</li>
+          <li><strong style={{ color:'#1976d2'}}>ปือนข้อมูล:</strong> กรอกค่าของ <code>x₁</code>, <code>x₂</code> และ <code>y</code> (ต้องเป็น 0 หรือ 1) แล้วกดปุ่ม <em>“Add Data Point”</em> หรือกดปุ่ม <em>“Load Sample Data”</em> เพื่อเพิ่มตัวอย่างข้อมูลที่จำลองมาให้</li>
+          <li><strong style={{ color:'#1976d2'}}>ฝึกโมเดล:</strong> กดปุ่ม <em>“Train Model”</em> เพื่อเริ่มเรียนรู้และปรับค่า weights</li>
           <li><strong style={{ color:'#1976d2'}}>ดูผลลัพธ์:</strong> ระบบจะแสดงกราฟ Error และ Weights per Epoch</li>
-          <li><strong style={{ color:'#1976d2'}}>ใช้ตัวอย่าง:</strong> หากยังไม่มีข้อมูล สามารถกดปุ่ม <em>“🚀 ตัวอย่างข้อมูลจำลอง”</em></li>
-          <li><strong style={{ color:'#1976d2'}}>ล้างข้อมูล:</strong> กดปุ่ม <em>“ล้าง”</em> เพื่อเริ่มต้นใหม่</li>
+          <li><strong style={{ color:'#1976d2'}}>ใช้ตัวอย่าง:</strong> หากยังไม่มีข้อมูล สามารถกดปุ่ม <em>“Load Sample Data”</em></li>
+          <li><strong style={{ color:'#1976d2'}}>ล้างข้อมูล:</strong> กดปุ่ม <em>“Reset”</em> เพื่อเริ่มต้นใหม่</li>
         </ol>
 
         <h3 style={{ marginTop: '1.5rem', fontSize: '1.5rem' }}>📈 กราฟผลลัพธ์:</h3>
@@ -187,8 +185,8 @@ export default function DisplayPerceptron() {
         <TextField id="outlined-basic" label="x1" variant="outlined" type="number" step="any" value={x1} onChange={e => setX1(e.target.value)} />
         <TextField id="outlined-basic" label="x2" variant="outlined" type="number" step="any" value={x2} onChange={e => setX2(e.target.value)} />
         <TextField id="outlined-basic" label="y (0 or 1)" variant="outlined" type="number" inputProps={{ min: 0, max: 1 }} value={y} onChange={e => setY(e.target.value)} sx={{ minWidth: '150px' }} />
-        <Button onClick={handleAddData} disabled={blockInput === true} variant='contained' sx={font}>Add Data</Button>
-        <Button onClick={handleTrainTest} variant='contained' sx={font}>🚀 ตัวอย่างข้อมูลจำลอง</Button>
+        <Button onClick={handleAddData} disabled={blockInput === true} variant='contained' sx={font}>Add Data Point</Button>
+        <Button onClick={handleTrainTest} variant='contained' sx={font}>Load Sample Data</Button>
       </Stack>
 
       <h4 style={{ fontSize: '2rem' }}>📋 Dataset</h4>
@@ -217,8 +215,8 @@ export default function DisplayPerceptron() {
       </TableContainer>
 
       <Stack spacing={2} direction="row">
-        <Button onClick={handleTrain} disabled={dataset.length === 0} variant='contained' sx={font}>🚀 ฝึกโมเดล</Button>
-        <Button onClick={cl} variant='contained' sx={font} color="error">ล้าง</Button>
+        <Button onClick={handleTrain} disabled={dataset.length === 0} variant='contained' sx={font}>Train Model</Button>
+        <Button onClick={cl} variant='contained' sx={font} color="error">Reset</Button>
       </Stack>
 
       {trained && (
