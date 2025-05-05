@@ -81,6 +81,29 @@ export default function DisplayPerceptron() {
     
       return (
         <div style={{ padding: '2rem', fontFamily: 'Prompt', fontWeight: 400 }}>
+          <Box className="bg-yellow-50 border rounded p-4 mb-6" sx={{ fontFamily: 'Prompt' }}>
+  <h2 className="text-xl font-bold text-blue-800">🧠 ทฤษฎีของ Perceptron</h2>
+  <p style={{ fontSize: '1rem', marginTop: '0.5rem' }}>
+    Perceptron เป็นโมเดลพื้นฐานของ Machine Learning สำหรับการจำแนกข้อมูลแบบสองกลุ่ม (Binary Classification)
+    โดยใช้สมการเชิงเส้นเพื่อแบ่งข้อมูลออกเป็นกลุ่ม 0 หรือ 1
+  </p>
+  <p style={{ fontSize: '0.95rem', marginTop: '0.5rem' }}>
+    <strong>สมการ:</strong> &nbsp;
+    <code>y = f(w₁x₁ + w₂x₂ + b)</code>
+    <br />
+    โดยที่:
+    <ul style={{ marginLeft: '1rem', marginTop: '0.3rem' }}>
+      <li><code>x₁, x₂</code>: ค่าข้อมูลนำเข้า (features)</li>
+      <li><code>w₁, w₂</code>: ค่าน้ำหนัก (weights)</li>
+      <li><code>b</code>: ค่าคงที่ (bias)</li>
+      <li><code>f</code>: ฟังก์ชันตัดสินใจ (เช่น step function)</li>
+    </ul>
+  </p>
+  <p style={{ fontSize: '0.95rem', marginTop: '0.5rem' }}>
+    การฝึกโมเดลจะปรับค่าของ <code>w</code> และ <code>b</code> โดยอิงจากข้อผิดพลาด (error) เพื่อให้โมเดลสามารถแยกข้อมูลได้ถูกต้อง
+  </p>
+</Box>
+
           <h1>🧠 Perceptron Interactive Trainer</h1>
     
           <h3 style={{ fontSize: '2rem'}}>➕ เพิ่มข้อมูล (x1, x2, y)</h3>
