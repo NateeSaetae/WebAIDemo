@@ -6,6 +6,7 @@ import { Button, Stack, TextField, Box, Container, Divider } from '@mui/material
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PerceptronExplanationModal from '../AI_Models/PerceptronExplanationModal'
+import DecisionBoundaryChart from '../Chart/PerceptronDiagram'
 
 export default function DisplayPerceptron() {
   const [dataset, setDataset] = useState([]);
@@ -229,6 +230,13 @@ export default function DisplayPerceptron() {
           <Box sx={{ flex: 1, minWidth: '800px' }}>
             <h3 style={{ fontSize: '1.5rem' }}>📊 Weights over Epochs</h3>
             <WeightsChart weightsPerEpoch={weights} />
+          </Box>
+          <Box sx={{ flex: 1, minWidth: '800px' }}>
+            <h3 style={{ fontSize: '1.5rem' }}>📊 Weights over Epochs</h3>
+            <DecisionBoundaryChart
+              dataPoints={dataset}
+              weights={weights[weights.length - 1]} // ใช้ weight ล่าสุด
+            />
           </Box>
         </Stack>
       )}

@@ -23,7 +23,7 @@ export function trainPerceptron(dataset, learningRate = 0.1, epochs = 10) {
     }
 
     // clone ค่า weights เก็บไว้ใน array
-    weightsPerEpoch.push([...weights]);
+    weightsPerEpoch.push([...weights, bias]);
     errorsPerEpoch.push(totalError);
   }
 
