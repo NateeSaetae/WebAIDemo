@@ -8,14 +8,17 @@ import OlsRegressionApp from './AI_Models/trainOls.js'
 export default function TableTabExample() {
   const [tab, setTab] = useState(0);
   const handleChange = (_, newValue) => setTab(newValue);
+  const headerStyle = { fontSize:'1.5rem', color:'#fff','&.Mui-selected': {color: '#00ccff',}}
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Tabs value={tab} onChange={handleChange}>
-        <Tab label="Perceptron" />
-        <Tab label="K-NN" />
-        <Tab label="A-NN"/>
-        <Tab label="OLS"/>
+    <Box sx={{ width: '100%'}}>
+      <Tabs value={tab} onChange={handleChange} sx={{ background:'#003366',padding:'1rem', position: 'sticky',top: 0, zIndex: 1000,}}  TabIndicatorProps={{style: {backgroundColor: '#00ccff' // สีเส้นขีดใต้ tab ที่เลือก
+    }
+  }}>
+        <Tab label="Perceptron" sx={headerStyle}/>
+        <Tab label="K-NN" sx={headerStyle}/>
+        <Tab label="A-NN" sx={headerStyle}/>
+        <Tab label="OLS" sx={headerStyle}/>
       </Tabs>
 
       {tab === 0 && <DisplayPerceptron/>}

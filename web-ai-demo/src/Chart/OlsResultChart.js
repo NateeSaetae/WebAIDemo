@@ -1,7 +1,7 @@
-import React from 'react';
 import {
   LineChart,
   Line,
+  Scatter,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -19,11 +19,11 @@ export default function OlsResultChart({ data }) {
         <LineChart data={sortedData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="x1" label={{ value: 'x1', position: 'insideBottom', offset: -5 }} />
-          <YAxis label={{ value: 'y', angle: -90, position: 'insideLeft' }} />
+          <YAxis label={{ value: 'y / ŷ', angle: -90, position: 'insideLeft' }} />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="y" stroke="#8884d8" name="Actual" dot={true} />
-          <Line type="monotone" dataKey="predicted" stroke="#82ca9d" name="Predicted" dot={false} />
+          <Scatter name="Actual" data={sortedData} fill="#8884d8" />
+          <Line type="linear" dataKey="predicted" stroke="#82ca9d" dot={false} name="Predicted Line" />
         </LineChart>
       </ResponsiveContainer>
     </div>

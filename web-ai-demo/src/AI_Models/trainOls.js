@@ -33,33 +33,41 @@ export default function OlsRegressionApp() {
   };
 
   const handleTrainOLS = () => {
-    if (dataset.length < 2) {
-      alert('ต้องมีข้อมูลอย่างน้อย 2 ชุด');
-      return;
-    }
+  if (dataset.length < 2) {
+    alert('ต้องมีข้อมูลอย่างน้อย 2 ชุด');
+    return;
+  }
 
-    const X = dataset.map(d => [1, d.x1]);
-    const Y = dataset.map(d => [d.y]);
+  const X = dataset.map(d => [1, d.x1]);
+  const Y = dataset.map(d => [d.y]);
 
-    try {
-      const XT = math.transpose(X);
-      const XTX = math.multiply(XT, X);
-      const XTX_inv = math.inv(XTX);
-      const XTY = math.multiply(XT, Y);
-      const W = math.multiply(XTX_inv, XTY);
+  try {
+    const XT = math.transpose(X);
+    const XTX = math.multiply(XT, X);
+    const XTX_inv = math.inv(XTX);
+    const XTY = math.multiply(XT, Y);
+    const W = math.multiply(XTX_inv, XTY);
 
-      setWeights(W.map(w => w[0]));
+    setWeights(W.map(w => w[0]));
 
-      const predictions = X.map(row => math.dot(row, W.map(w => w[0])));
-      const errors = predictions.map((pred, i) => pred - Y[i][0]);
-      const mseVal = errors.reduce((sum, e) => sum + e ** 2, 0) / errors.length;
-      setMse(mseVal.toFixed(4));
-    } catch (error) {
-      alert('เกิดข้อผิดพลาดในการคำนวณ OLS');
-      setWeights(null);
-      setMse(null);
-    }
-  };
+    const predictions = X.map(row => math.dot(row, W.map(w => w[0])));
+    const errors = predictions.map((pred, i) => pred - Y[i][0]);
+    const mseVal = errors.reduce((sum, e) => sum + e ** 2, 0) / errors.length;
+    setMse(mseVal.toFixed(4));
+
+    const updatedDataset = dataset.map((d, i) => ({
+      x1: d.x1,
+      y: d.y,
+      predicted: predictions[i]
+    }));
+    setDataset(updatedDataset);
+
+  } catch (error) {
+    alert('เกิดข้อผิดพลาดในการคำนวณ OLS');
+    setWeights(null);
+    setMse(null);
+  }
+};
 
   const cl = () => {
     setDataset([]);
@@ -70,7 +78,7 @@ export default function OlsRegressionApp() {
   };
 
   const handleTest = () => {
-    setDataset(dataTest)
+    setDataset(dataTest);
   }
 
   const exModel = () => {

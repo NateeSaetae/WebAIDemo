@@ -57,7 +57,6 @@ export default function DecisionBoundaryChart({ dataPoints, weights }) {
 
   return (
     <div style={{ width: '100%', maxWidth: '600px' }}>
-      <h3>Decision Boundary</h3>
       <Scatter data={data} options={options} />
     </div>
   );

@@ -224,15 +224,11 @@ export default function DisplayPerceptron() {
       {trained && (
         <Stack spacing={2} direction="row" sx={{ width: '100%', mt: 4 }}>
           <Box sx={{ flex: 1, minWidth: '800px' }}>
-            <h3 style={{ fontSize: '1.5rem' }}>📈 Error per Epoch</h3>
-            <ResultChart dataPoints={errors} />
-          </Box>
-          <Box sx={{ flex: 1, minWidth: '800px' }}>
             <h3 style={{ fontSize: '1.5rem' }}>📊 Weights over Epochs</h3>
             <WeightsChart weightsPerEpoch={weights} />
           </Box>
           <Box sx={{ flex: 1, minWidth: '800px' }}>
-            <h3 style={{ fontSize: '1.5rem' }}>📊 Weights over Epochs</h3>
+            <h3 style={{ fontSize: '1.5rem' }}>📊 Decision Boundary</h3>
             <DecisionBoundaryChart
               dataPoints={dataset}
               weights={weights[weights.length - 1]} // ใช้ weight ล่าสุด
