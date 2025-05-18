@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/WebAIDemo/static/css/main.e6c13ad2.css",
+    "main.js": "/WebAIDemo/static/js/main.b433ad88.js",
+    "static/js/453.a6a9c37b.chunk.js": "/WebAIDemo/static/js/453.a6a9c37b.chunk.js",
+    "index.html": "/WebAIDemo/index.html",
+    "main.e6c13ad2.css.map": "/WebAIDemo/static/css/main.e6c13ad2.css.map",
+    "main.b433ad88.js.map": "/WebAIDemo/static/js/main.b433ad88.js.map",
+    "453.a6a9c37b.chunk.js.map": "/WebAIDemo/static/js/453.a6a9c37b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.b433ad88.js"
+  ]
+}
